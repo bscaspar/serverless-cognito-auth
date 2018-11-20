@@ -23,8 +23,36 @@
     },
     {
       "Effect": "Allow",
+      "Action": ["s3:Get*", "s3:List*"],
+      "Resource": ["arn:aws:s3:::serverless-cognito-auth-deploy"]
+    },
+    {
+      "Effect": "Allow",
       "Action": ["s3:*"],
       "Resource": ["arn:aws:s3:::serverless-cognito-auth-deploy/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:Describe*",
+        "dynamodb:CreateTable",
+        "dynamodb:DeleteTable"
+      ],
+      "Resource": "arn:aws:dynamodb:us-west-2:475990069585:table/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cognito-idp:CreateUserPool",
+        "cognito-idp:DeleteUserPool",
+        "cognito-idp:CreateUserPoolClient",
+        "cognito-idp:DeleteUserPoolClient",
+        "cognito-identity:CreateIdentityPool",
+        "cognito-identity:DeleteIdentityPool",
+        "cognito-identity:SetIdentityPoolRoles",
+        "cognito-identity:DeleteIdentityPoolRoles"
+      ],
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -59,9 +87,7 @@
         "iam:AttachRolePolicy",
         "iam:DeleteRolePolicy"
       ],
-      "Resource": [
-        "arn:aws:iam::475990069585:role/serverless-cognito-auth*-lambdaRole"
-      ]
+      "Resource": ["arn:aws:iam::475990069585:role/*"]
     },
     {
       "Effect": "Allow",
@@ -132,6 +158,26 @@
       "Effect": "Allow",
       "Action": ["apigateway:GET", "apigateway:PATCH"],
       "Resource": ["arn:aws:apigateway:us-west-2::/account"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:POST",
+        "apigateway:DELETE",
+        "apigateway:GET",
+        "apigateway:PUT"
+      ],
+      "Resource": ["arn:aws:apigateway:us-west-2::/restapis"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:POST",
+        "apigateway:DELETE",
+        "apigateway:GET",
+        "apigateway:PUT"
+      ],
+      "Resource": ["arn:aws:apigateway:us-west-2::/restapis/*"]
     },
     {
       "Effect": "Allow",
