@@ -1,4 +1,4 @@
-service: notes-app-2-api
+service: serverless-cognito-auth
 
 # Use the serverless-webpack plugin to transpile ES6
 plugins:
@@ -12,7 +12,7 @@ custom:
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
   # Set the table name here so we can use it while testing locally
-  tableName: ${self:custom.stage}-notes
+  tableName: ${self:custom.stage}-data
   # Set our DynamoDB throughput for prod and all other non-prod stages.
   tableThroughputs:
     prod: 5
@@ -21,7 +21,6 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-  environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
 
 provider:
   name: aws
@@ -48,11 +47,11 @@ provider:
       # Restrict our IAM role permissions to
       # the specific table for the stage
       Resource:
-        - "Fn::GetAtt": [NotesTable, Arn]
+        - "Fn::GetAtt": [DataTable, Arn]
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /notes
+  # - path: url path is /data
   # - method: POST request
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
   #     domain api call
@@ -61,67 +60,63 @@ functions:
     handler: create.main
     events:
       - http:
-          path: notes
+          path: data
           method: post
           cors: true
           authorizer: aws_iam
 
-  get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
-    handler: get.main
-    events:
-      - http:
-          path: notes/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  list:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
-    handler: list.main
-    events:
-      - http:
-          path: notes
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  update:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
-    handler: update.main
-    events:
-      - http:
-          path: notes/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-
-  delete:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: delete.main
-    events:
-      - http:
-          path: notes/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
-
-  billing:
-    handler: billing.main
-    events:
-      - http:
-          path: billing
-          method: post
-          cors: true
-          authorizer: aws_iam
+  # get:
+  #   # Defines an HTTP API endpoint that calls the main function in get.js
+  #   # - path: url path is /data/{id}
+  #   # - method: GET request
+  #   handler: get.main
+  #   events:
+  #     - http:
+  #         path: data/{id}
+  #         method: get
+  #         cors: true
+  #         authorizer: aws_iam
+  # list:
+  #   # Defines an HTTP API endpoint that calls the main function in list.js
+  #   # - path: url path is /data
+  #   # - method: GET request
+  #   handler: list.main
+  #   events:
+  #     - http:
+  #         path: data
+  #         method: get
+  #         cors: true
+  #         authorizer: aws_iam
+  # update:
+  #   # Defines an HTTP API endpoint that calls the main function in update.js
+  #   # - path: url path is /data/{id}
+  #   # - method: PUT request
+  #   handler: update.main
+  #   events:
+  #     - http:
+  #         path: data/{id}
+  #         method: put
+  #         cors: true
+  #         authorizer: aws_iam
+  # delete:
+  #   # Defines an HTTP API endpoint that calls the main function in delete.js
+  #   # - path: url path is /data/{id}
+  #   # - method: DELETE request
+  #   handler: delete.main
+  #   events:
+  #     - http:
+  #         path: data/{id}
+  #         method: delete
+  #         cors: true
+  #         authorizer: aws_iam
+  # billing:
+  #   handler: billing.main
+  #   events:
+  #     - http:
+  #         path: billing
+  #         method: post
+  #         cors: true
+  #         authorizer: aws_iam
 
 resources:
   # DynamoDB
