@@ -32,6 +32,8 @@ provider:
   environment:
     tableName: ${self:custom.tableName}
 
+  deploymentBucket: ${self:custom.deploymentBucket}
+
   # 'iamRoleStatement' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
   iamRoleStatements:
