@@ -44,13 +44,15 @@
       "Effect": "Allow",
       "Action": [
         "cognito-idp:CreateUserPool",
+        "cognito-idp:UpdateUserPool",
         "cognito-idp:DeleteUserPool",
         "cognito-idp:CreateUserPoolClient",
+        "cognito-idp:UpdateUserPoolClient",
         "cognito-idp:DeleteUserPoolClient",
         "cognito-identity:CreateIdentityPool",
+        "cognito-identity:UpdateIdentityPool",
         "cognito-identity:DeleteIdentityPool",
-        "cognito-identity:SetIdentityPoolRoles",
-        "cognito-identity:DeleteIdentityPoolRoles"
+        "cognito-identity:SetIdentityPoolRoles"
       ],
       "Resource": "*"
     },
