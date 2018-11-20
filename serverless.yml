@@ -21,6 +21,7 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+  deploymentBucket: serverless-cognito-auth-deploy
 
 provider:
   name: aws
@@ -30,7 +31,6 @@ provider:
 
   environment:
     tableName: ${self:custom.tableName}
-    stripeSecretKey: ${self:custom.environment.stripeSecretKey}
 
   # 'iamRoleStatement' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
